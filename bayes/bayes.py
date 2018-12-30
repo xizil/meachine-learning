@@ -21,12 +21,7 @@ def create_word_list(con):
             txt_class.append(1)
         else:#垃圾邮件
             txt_class.append(0)
-    #print(dataset)
-    #print('wordlist', list(wordlist))
-    #print(txt_class)
     print(dataset[:3])
-    #print(len(dataset), len(txt_class))
-    #print('ham' in wordlist, list(wordlist).index('ham'), list(wordlist)[list(wordlist).index('ham')])
     wordlist=[i for i in wordlist if len(i)>2]
     return dataset,wordlist,txt_class
 def words_vec(txt,wordlist):
@@ -57,16 +52,11 @@ def train(trainmatrix,traincategory):
         else:
             p0num+=trainmatrix[i]
             p0dem+=sum(trainmatrix[i])
-    #print(p0num)
-    #print('p0dem',p0dem)
-    #print(len(p0num))#10860
     p1vect= log(p1num / p1dem)
-    #print(p1vect)
     p0vect = log(p0num / p0dem)
     return p1vect,p0vect,pa
 def mul(num):
     totalerror = 0
-    #print(num)
     for times in range(num):
         trainset = [i for i in range(len(txt_class))]
         testset = []
@@ -82,13 +72,10 @@ def mul(num):
             trainMat.append(words_vec(dataset[i], wordlist))
             trainclass.append(txt_class[i])
         p1vect, p0vect, pa = train(trainMat, trainclass)
-        #print(p1vect, p0vect, pa)
         error=0
         for i in range(len(testset)):
-            # print(classify(array(testset[i]),p0vect,p1vect,pa))
             if classify(array(testset[i]), p0vect, p1vect, pa) != testclass[i]:
                 error += 1
-        #print('the error rate is', error / float(len(testset)))
         print('the accurate is', 1 - error / float(len(testset)))
         totalerror+=error / float(len(testset))
     print('after %d times the accurate of bayes is %f'%(num,1-float(totalerror)/num))
