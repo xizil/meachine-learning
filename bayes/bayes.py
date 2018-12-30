@@ -3,7 +3,7 @@ import requests
 import  re
 import random
 def read_txt():
-    file = 'C:/Users/伊雅/Desktop/bayes.txt'
+    file = 'bayes.txt'
     with open(file, encoding='utf-8') as f:
         con = f.readlines()
     return con
